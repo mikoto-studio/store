@@ -591,12 +591,12 @@ type Query {
   """List of gift cards."""
   giftCards(
     """
-    New in Saleor 3.1. Sort gift cards. Note: this feature is in a preview state and can be subject to changes at later point.
+    Added in Saleor 3.1. Sort gift cards. Note: this feature is in a preview state and can be subject to changes at later point.
     """
     sortBy: GiftCardSortingInput
 
     """
-    New in Saleor 3.1. Filtering options for gift cards. Note: this feature is in a preview state and can be subject to changes at later point.
+    Added in Saleor 3.1. Filtering options for gift cards. Note: this feature is in a preview state and can be subject to changes at later point.
     """
     filter: GiftCardFilterInput
 
@@ -614,12 +614,12 @@ type Query {
   ): GiftCardCountableConnection
 
   """
-  New in Saleor 3.1. List of gift card currencies. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. List of gift card currencies. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   giftCardCurrencies: [String!]!
 
   """
-  New in Saleor 3.1. List of gift card tags. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. List of gift card tags. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   giftCardTags(
     """Filtering options for gift card tags."""
@@ -783,10 +783,10 @@ type Query {
 
   """List of checkouts."""
   checkouts(
-    """New in Saleor 3.1. Sort checkouts."""
+    """Added in Saleor 3.1. Sort checkouts."""
     sortBy: CheckoutSortingInput
 
-    """New in Saleor 3.1. Filtering options for checkouts."""
+    """Added in Saleor 3.1. Filtering options for checkouts."""
     filter: CheckoutFilterInput
 
     """Slug of a channel for which the data should be returned."""
@@ -895,7 +895,7 @@ type Query {
   ): App
 
   """
-  New in Saleor 3.1. List of all extensions. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. List of all extensions. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   appExtensions(
     """Filtering options for apps extensions."""
@@ -915,7 +915,7 @@ type Query {
   ): AppExtensionCountableConnection
 
   """
-  New in Saleor 3.1. Look up an app extension by ID. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Look up an app extension by ID. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   appExtension(
     """ID of the app extension."""
@@ -1367,13 +1367,51 @@ enum WebhookEventTypeAsyncEnum {
 type App implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
 
   """List of the app's permissions."""
   permissions: [Permission!]
@@ -1424,19 +1462,57 @@ type App implements Node & ObjectWithMetadata {
   accessToken: String
 
   """
-  New in Saleor 3.1. App's dashboard extensions. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. App's dashboard extensions. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   extensions: [AppExtension!]!
 }
 
 interface ObjectWithMetadata {
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
 }
 
 type MetadataItem {
@@ -1446,6 +1522,19 @@ type MetadataItem {
   """Value of a metadata item."""
   value: String!
 }
+
+"""
+Metadata is a map of key-value pairs, both keys and values are `String`.
+
+Example:
+```
+{
+    "key1": "value1",
+    "key2": "value2"
+}
+```
+"""
+scalar Metadata
 
 """Represents a permission object in a friendly form."""
 type Permission {
@@ -1768,13 +1857,51 @@ enum WebhookSampleEventTypeEnum {
 type Warehouse implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   name: String!
   slug: String!
   email: String!
@@ -1785,7 +1912,7 @@ type Warehouse implements Node & ObjectWithMetadata {
   companyName: String! @deprecated(reason: "This field will be removed in Saleor 4.0. Use `Address.companyName` instead.")
 
   """
-  New in Saleor 3.1. Click and collect options: local, all or disabled. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Click and collect options: local, all or disabled. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   clickAndCollectOption: WarehouseClickAndCollectOptionEnum!
   shippingZones(
@@ -1889,13 +2016,51 @@ Represents a shipping zone in the shop. Zones are the concept used only for grou
 type ShippingZone implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   name: String!
   default: Boolean!
 
@@ -1945,13 +2110,51 @@ type ShippingMethodType implements Node & ObjectWithMetadata {
   """Shipping method ID."""
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
 
   """Shipping method name."""
   name: String!
@@ -2837,7 +3040,7 @@ type Channel implements Node {
   hasOrders: Boolean!
 
   """
-  New in Saleor 3.1. Default country for the channel. Default country can be used in checkout to determine the stock quantities or calculate taxes when the country was not explicitly provided.
+  Added in Saleor 3.1. Default country for the channel. Default country can be used in checkout to determine the stock quantities or calculate taxes when the country was not explicitly provided.
   """
   defaultCountry: CountryDisplay!
 }
@@ -2884,13 +3087,51 @@ type ProductCountableEdge {
 type Product implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   seoTitle: String
   seoDescription: String
   name: String!
@@ -2989,13 +3230,51 @@ Represents a type of product. It defines what attributes are available to produc
 type ProductType implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   name: String!
   slug: String!
   hasVariants: Boolean!
@@ -3034,7 +3313,7 @@ type ProductType implements Node & ObjectWithMetadata {
   ): [Attribute!] @deprecated(reason: "This field will be removed in Saleor 4.0. Use `assignedVariantAttributes` instead.")
 
   """
-  New in Saleor 3.1. Variant attributes of that product type with attached variant selection.
+  Added in Saleor 3.1. Variant attributes of that product type with attached variant selection.
   """
   assignedVariantAttributes(
     """Define scope of returned attributes."""
@@ -3099,13 +3378,51 @@ Custom attribute of a product. Attributes can be assigned to products and varian
 type Attribute implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
 
   """The input type to use for entering attribute values in the dashboard."""
   inputType: AttributeInputTypeEnum
@@ -3399,7 +3716,7 @@ enum VariantAttributeScope {
 }
 
 """
-New in Saleor 3.1. Represents assigned attribute to variant with variant selection attached.
+Added in Saleor 3.1. Represents assigned attribute to variant with variant selection attached.
 """
 type AssignedVariantAttribute {
   """Attribute assigned to variant."""
@@ -3464,13 +3781,51 @@ Represents a single category of products. Categories allow to organize products 
 type Category implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   seoTitle: String
   seoDescription: String
   name: String!
@@ -3585,13 +3940,51 @@ type CategoryTranslation implements Node {
 type ProductVariant implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   name: String!
   sku: String
   product: Product!
@@ -3682,7 +4075,7 @@ type ProductVariant implements Node & ObjectWithMetadata {
   ): Int
 
   """
-  New in Saleor 3.1. Preorder data for product variant. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Preorder data for product variant. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   preorder: PreorderData
   created: DateTime!
@@ -3702,7 +4095,7 @@ type ProductVariantChannelListing implements Node {
   margin: Int
 
   """
-  New in Saleor 3.1. Preorder variant data. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Preorder variant data. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   preorderThreshold: PreorderThreshold
 }
@@ -4109,13 +4502,51 @@ type ProductVariantTranslation implements Node {
 type DigitalContent implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   useDefaultSettings: Boolean!
   automaticFulfillment: Boolean!
   contentFile: String!
@@ -4247,13 +4678,51 @@ type Margin {
 type Collection implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   seoTitle: String
   seoDescription: String
   name: String!
@@ -4701,13 +5170,51 @@ A static page that can be manually added by a shop operator through the dashboar
 type Page implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   seoTitle: String
   seoDescription: String
   title: String!
@@ -4739,13 +5246,51 @@ Represents a type of page. It defines what attributes are available to pages of 
 type PageType implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   name: String!
   slug: String!
 
@@ -4820,13 +5365,51 @@ Sales allow creating discounts for categories, collections or products and are v
 type Sale implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   name: String!
   type: SaleType!
   startDate: DateTime!
@@ -4879,7 +5462,7 @@ type Sale implements Node & ObjectWithMetadata {
     last: Int
   ): ProductCountableConnection
 
-  """New in Saleor 3.1. List of product variants this sale applies to."""
+  """Added in Saleor 3.1. List of product variants this sale applies to."""
   variants(
     """Return the elements in the list that come before the specified cursor."""
     before: String
@@ -4987,13 +5570,51 @@ Vouchers allow giving discounts to particular customers on categories, collectio
 type Voucher implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   name: String
   code: String!
   usageLimit: Int
@@ -5050,7 +5671,7 @@ type Voucher implements Node & ObjectWithMetadata {
     last: Int
   ): ProductCountableConnection
 
-  """New in Saleor 3.1. List of product variants this voucher applies to."""
+  """Added in Saleor 3.1. List of product variants this voucher applies to."""
   variants(
     """Return the elements in the list that come before the specified cursor."""
     before: String
@@ -5143,13 +5764,51 @@ Represents a single item of the related menu. Can store categories, collection o
 type MenuItem implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   name: String!
   menu: Menu!
   parent: MenuItem
@@ -5175,13 +5834,51 @@ Represents a single menu - an object that is used to help navigate through the s
 type Menu implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   name: String!
   slug: String!
   items: [MenuItem!]
@@ -5254,7 +5951,7 @@ type Shop {
   ): [ShippingMethod!]
 
   """
-  New in Saleor 3.1. List of all currencies supported by shop's channels.
+  Added in Saleor 3.1. List of all currencies supported by shop's channels.
   """
   channelCurrencies: [String!]!
 
@@ -5304,10 +6001,10 @@ type Shop {
   """Include taxes in prices."""
   includeTaxesInPrices: Boolean!
 
-  """New in Saleor 3.1. Automatically approve all new fulfillments."""
+  """Added in Saleor 3.1. Automatically approve all new fulfillments."""
   fulfillmentAutoApprove: Boolean!
 
-  """New in Saleor 3.1. Allow to approve fulfillments which are unpaid."""
+  """Added in Saleor 3.1. Allow to approve fulfillments which are unpaid."""
   fulfillmentAllowUnpaid: Boolean!
 
   """Display prices with tax in store."""
@@ -5332,17 +6029,17 @@ type Shop {
   automaticFulfillmentDigitalProducts: Boolean
 
   """
-  New in Saleor 3.1. Default number of minutes stock will be reserved for anonymous checkout or null when stock reservation is disabled.
+  Added in Saleor 3.1. Default number of minutes stock will be reserved for anonymous checkout or null when stock reservation is disabled.
   """
   reserveStockDurationAnonymousUser: Int
 
   """
-  New in Saleor 3.1. Default number of minutes stock will be reserved for authenticated checkout or null when stock reservation is disabled.
+  Added in Saleor 3.1. Default number of minutes stock will be reserved for authenticated checkout or null when stock reservation is disabled.
   """
   reserveStockDurationAuthenticatedUser: Int
 
   """
-  New in Saleor 3.1. Default number of maximum line quantity in single checkout (per single checkout line). Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Default number of maximum line quantity in single checkout (per single checkout line). Note: this feature is in a preview state and can be subject to changes at later point.
   """
   limitQuantityPerCheckout: Int
 
@@ -5409,13 +6106,51 @@ type ShippingMethod implements Node & ObjectWithMetadata {
   """Unique ID of ShippingMethod available for Order."""
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
 
   """Type of the shipping method."""
   type: ShippingMethodTypeEnum @deprecated(reason: "This field will be removed in Saleor 4.0.")
@@ -5508,13 +6243,51 @@ type StaffNotificationRecipient implements Node {
 type User implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   email: String!
   firstName: String!
   lastName: String!
@@ -5601,13 +6374,51 @@ type User implements Node & ObjectWithMetadata {
 type Checkout implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   created: DateTime!
   lastChange: DateTime!
   user: User
@@ -5627,7 +6438,7 @@ type Checkout implements Node & ObjectWithMetadata {
   shippingMethods: [ShippingMethod!]!
 
   """
-  New in Saleor 3.1. Collection points that can be used for this order. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Collection points that can be used for this order. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   availableCollectionPoints: [Warehouse!]!
 
@@ -5647,7 +6458,7 @@ type Checkout implements Node & ObjectWithMetadata {
   quantity: Int!
 
   """
-  New in Saleor 3.1. Date when oldest stock reservation for this checkout  expires or null if no stock is reserved.
+  Added in Saleor 3.1. Date when oldest stock reservation for this checkout  expires or null if no stock is reserved.
   """
   stockReservationExpires: DateTime
 
@@ -5663,7 +6474,7 @@ type Checkout implements Node & ObjectWithMetadata {
   shippingMethod: ShippingMethod @deprecated(reason: "This field will be removed in Saleor 4.0. Use `deliveryMethod` instead.")
 
   """
-  New in Saleor 3.1. The delivery method selected for this checkout. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. The delivery method selected for this checkout. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   deliveryMethod: DeliveryMethod
 
@@ -5688,13 +6499,51 @@ A gift card is a prepaid electronic payment card accepted in stores. They can be
 type GiftCard implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
 
   """Code in format which allows displaying in a user interface."""
   displayCode: String!
@@ -5709,39 +6558,39 @@ type GiftCard implements Node & ObjectWithMetadata {
   created: DateTime!
 
   """
-  New in Saleor 3.1. The user who bought or issued a gift card. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. The user who bought or issued a gift card. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   createdBy: User
 
   """
-  New in Saleor 3.1. The customer who used a gift card. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. The customer who used a gift card. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   usedBy: User
 
   """
-  New in Saleor 3.1. Email address of the user who bought or issued gift card. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Email address of the user who bought or issued gift card. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   createdByEmail: String
 
   """
-  New in Saleor 3.1. Email address of the customer who used a gift card. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Email address of the customer who used a gift card. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   usedByEmail: String
   lastUsedOn: DateTime
   expiryDate: Date
 
   """
-  New in Saleor 3.1. App which created the gift card. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. App which created the gift card. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   app: App
 
   """
-  New in Saleor 3.1. Related gift card product. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Related gift card product. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   product: Product
 
   """
-  New in Saleor 3.1. List of events associated with the gift card. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. List of events associated with the gift card. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   events(
     """Filtering options for gift card events."""
@@ -5749,12 +6598,12 @@ type GiftCard implements Node & ObjectWithMetadata {
   ): [GiftCardEvent!]!
 
   """
-  New in Saleor 3.1. The gift card tag. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. The gift card tag. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   tags: [GiftCardTag!]!
 
   """
-  New in Saleor 3.1. Slug of the channel where the gift card was bought. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Slug of the channel where the gift card was bought. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   boughtInChannel: String
   isActive: Boolean!
@@ -5772,7 +6621,7 @@ type GiftCard implements Node & ObjectWithMetadata {
 }
 
 """
-New in Saleor 3.1. History log of the gift card. Note: this feature is in a preview state and can be subject to changes at later point.
+Added in Saleor 3.1. History log of the gift card. Note: this feature is in a preview state and can be subject to changes at later point.
 """
 type GiftCardEvent implements Node {
   id: ID!
@@ -5853,7 +6702,7 @@ input GiftCardEventFilterInput {
 }
 
 """
-New in Saleor 3.1. The gift card tag. Note: this feature is in a preview state and can be subject to changes at later point.
+Added in Saleor 3.1. The gift card tag. Note: this feature is in a preview state and can be subject to changes at later point.
 """
 type GiftCardTag implements Node {
   id: ID!
@@ -5874,7 +6723,7 @@ type CheckoutLine implements Node {
 }
 
 """
-New in Saleor 3.1. Represents a delivery method chosen for the checkout. `Warehouse` type is used when checkout is marked as "click and collect" and `ShippingMethod` otherwise. Note: this feature is in a preview state and can be subject to changes at later point.
+Added in Saleor 3.1. Represents a delivery method chosen for the checkout. `Warehouse` type is used when checkout is marked as "click and collect" and `ShippingMethod` otherwise. Note: this feature is in a preview state and can be subject to changes at later point.
 """
 union DeliveryMethod = Warehouse | ShippingMethod
 
@@ -5916,13 +6765,51 @@ type OrderCountableEdge {
 type Order implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   created: DateTime!
   updatedAt: DateTime!
   status: OrderStatus!
@@ -5952,7 +6839,7 @@ type Order implements Node & ObjectWithMetadata {
   shippingMethods: [ShippingMethod!]
 
   """
-  New in Saleor 3.1. Collection points that can be used for this order. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Collection points that can be used for this order. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   availableCollectionPoints: [Warehouse!]!
 
@@ -6032,7 +6919,7 @@ type Order implements Node & ObjectWithMetadata {
   isShippingRequired: Boolean!
 
   """
-  New in Saleor 3.1. The delivery method selected for this checkout. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. The delivery method selected for this checkout. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   deliveryMethod: DeliveryMethod
   languageCode: String! @deprecated(reason: "This field will be removed in Saleor 4.0. Use the `languageCodeEnum` field to fetch the language code. ")
@@ -6072,13 +6959,51 @@ enum OrderStatus {
 type Fulfillment implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   fulfillmentOrder: Int!
   status: FulfillmentStatus!
   trackingNumber: String!
@@ -6163,7 +7088,7 @@ type OrderLine implements Node {
   """List of allocations across warehouses."""
   allocations: [Allocation!]
 
-  """New in Saleor 3.1. A quantity of items remaining to be fulfilled."""
+  """Added in Saleor 3.1. A quantity of items remaining to be fulfilled."""
   quantityToFulfill: Int!
 
   """Type of the discount: fixed or percent"""
@@ -6204,13 +7129,51 @@ enum OrderAction {
 
 """Represents an Invoice."""
 type Invoice implements ObjectWithMetadata & Job & Node {
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
 
   """Job status."""
   status: JobStatusEnum!
@@ -6272,13 +7235,51 @@ enum PaymentChargeStatusEnum {
 type Payment implements Node & ObjectWithMetadata {
   id: ID!
 
-  """
-  List of private metadata items.Requires proper staff permissions to access.
-  """
+  """List of private metadata items. Requires staff permissions to access."""
   privateMetadata: [MetadataItem!]!
+
+  """
+  A single key from private metadata. Requires staff permissions to access.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafield(key: String!): String
+
+  """
+  Private metadata. Requires staff permissions to access. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  privateMetafields(keys: [String!]): Metadata
 
   """List of public metadata items. Can be accessed without permissions."""
   metadata: [MetadataItem!]!
+
+  """
+  A single key from public metadata.
+  
+  Tip: Use GraphQL aliases to fetch multiple keys.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafield(key: String!): String
+
+  """
+  Public metadata. Use `keys` to control which fields you want to include. The default is to include everything.
+  
+  Added in Saleor 3.2.
+  
+  Note: this feature is in a preview state and can be subject to changes at later point.
+  """
+  metafields(keys: [String!]): Metadata
   gateway: String!
   isActive: Boolean!
   created: DateTime!
@@ -6712,7 +7713,7 @@ type PaymentSource {
   creditCardInfo: CreditCard
 
   """
-  New in Saleor 3.1. List of public metadata items. Can be accessed without permissions.
+  Added in Saleor 3.1. List of public metadata items. Can be accessed without permissions.
   """
   metadata: [MetadataItem!]!
 }
@@ -8199,7 +9200,7 @@ type Mutation {
   ): ProductAttributeAssign
 
   """
-  New in Saleor 3.1. Update attributes assigned to product variant for given product type. Requires one of the following permissions: MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES.
+  Added in Saleor 3.1. Update attributes assigned to product variant for given product type. Requires one of the following permissions: MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES.
   """
   productAttributeAssignmentUpdate(
     """The operations to perform."""
@@ -8701,7 +9702,7 @@ type Mutation {
   ): ProductVariantReorderAttributeValues
 
   """
-  New in Saleor 3.1. Deactivates product variant preorder. It changes all preorder allocation into regular allocation. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_PRODUCTS.
+  Added in Saleor 3.1. Deactivates product variant preorder. It changes all preorder allocation into regular allocation. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_PRODUCTS.
   """
   productVariantPreorderDeactivate(
     """ID of a variant which preorder should be deactivated."""
@@ -9030,7 +10031,7 @@ type Mutation {
   ): FulfillmentCancel
 
   """
-  New in Saleor 3.1. Approve existing fulfillment. Requires one of the following permissions: MANAGE_ORDERS.
+  Added in Saleor 3.1. Approve existing fulfillment. Requires one of the following permissions: MANAGE_ORDERS.
   """
   orderFulfillmentApprove(
     """True if stock could be exceeded."""
@@ -9441,7 +10442,7 @@ type Mutation {
   ): GiftCardCreate
 
   """
-  New in Saleor 3.1. Delete gift card. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+  Added in Saleor 3.1. Delete gift card. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
   """
   giftCardDelete(
     """ID of the gift card to delete."""
@@ -9468,7 +10469,7 @@ type Mutation {
   ): GiftCardUpdate
 
   """
-  New in Saleor 3.1. Resend a gift card. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+  Added in Saleor 3.1. Resend a gift card. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
   """
   giftCardResend(
     """Fields required to resend a gift card."""
@@ -9476,7 +10477,7 @@ type Mutation {
   ): GiftCardResend
 
   """
-  New in Saleor 3.1. Adds note to the gift card. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+  Added in Saleor 3.1. Adds note to the gift card. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
   """
   giftCardAddNote(
     """ID of the gift card to add a note for."""
@@ -9487,7 +10488,7 @@ type Mutation {
   ): GiftCardAddNote
 
   """
-  New in Saleor 3.1. Create gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+  Added in Saleor 3.1. Create gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
   """
   giftCardBulkCreate(
     """Fields required to create gift cards."""
@@ -9495,7 +10496,7 @@ type Mutation {
   ): GiftCardBulkCreate
 
   """
-  New in Saleor 3.1. Delete gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+  Added in Saleor 3.1. Delete gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
   """
   giftCardBulkDelete(
     """List of gift card IDs to delete."""
@@ -9503,7 +10504,7 @@ type Mutation {
   ): GiftCardBulkDelete
 
   """
-  New in Saleor 3.1. Activate gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+  Added in Saleor 3.1. Activate gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
   """
   giftCardBulkActivate(
     """List of gift card IDs to activate."""
@@ -9511,7 +10512,7 @@ type Mutation {
   ): GiftCardBulkActivate
 
   """
-  New in Saleor 3.1. Deactivate gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+  Added in Saleor 3.1. Deactivate gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
   """
   giftCardBulkDeactivate(
     """List of gift card IDs to deactivate."""
@@ -9533,7 +10534,7 @@ type Mutation {
   ): PluginUpdate
 
   """
-  New in Saleor 3.1. Trigger sending a notification with the notify plugin method. Serializes nodes provided as ids parameter and includes this data in the notification payload.
+  Added in Saleor 3.1. Trigger sending a notification with the notify plugin method. Serializes nodes provided as ids parameter and includes this data in the notification payload.
   """
   externalNotificationTrigger(
     """
@@ -9717,7 +10718,7 @@ type Mutation {
   ): ExportProducts
 
   """
-  New in Saleor 3.1. Export gift cards to csv file. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+  Added in Saleor 3.1. Export gift cards to csv file. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
   """
   exportGiftCards(
     """Fields required to export gift cards data."""
@@ -9982,7 +10983,7 @@ type Mutation {
   ): CheckoutShippingMethodUpdate @deprecated(reason: "This field will be removed in Saleor 4.0. Use `checkoutDeliveryMethodUpdate` instead.")
 
   """
-  New in Saleor 3.1. Updates the delivery method (shipping method or pick up point) of the checkout. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Updates the delivery method (shipping method or pick up point) of the checkout. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   checkoutDeliveryMethodUpdate(
     """Delivery Method ID (`Warehouse` ID or `ShippingMethod` ID)."""
@@ -10009,7 +11010,7 @@ type Mutation {
   ): CheckoutLanguageCodeUpdate
 
   """
-  New in Saleor 3.2. Create new order from existing checkout. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: HANDLE_CHECKOUTS.
+  Added in Saleor 3.2. Create new order from existing checkout. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: HANDLE_CHECKOUTS.
   """
   orderCreateFromCheckout(
     """ID of a checkout that will be converted to an order."""
@@ -10739,7 +11740,7 @@ input WebhookCreateInput {
   secretKey: String
 
   """
-  New in Saleor 3.2. Subscription query used to define a webhook payload. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Subscription query used to define a webhook payload. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   query: String
 }
@@ -10792,7 +11793,7 @@ input WebhookUpdateInput {
   secretKey: String
 
   """
-  New in Saleor 3.2. Subscription query used to define a webhook payload. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Subscription query used to define a webhook payload. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   query: String
 }
@@ -10878,12 +11879,12 @@ input WarehouseUpdateInput {
   address: AddressInput
 
   """
-  New in Saleor 3.1. Click and collect options: local, all or disabled. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Click and collect options: local, all or disabled. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   clickAndCollectOption: WarehouseClickAndCollectOptionEnum
 
   """
-  New in Saleor 3.1. Visibility of warehouse stocks. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Visibility of warehouse stocks. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   isPrivate: Boolean
 }
@@ -11030,11 +12031,13 @@ input ShopSettingsInput {
   """Enable automatic fulfillment for all digital products."""
   automaticFulfillmentDigitalProducts: Boolean
 
-  """New in Saleor 3.1. Enable automatic approval of all new fulfillments."""
+  """
+  Added in Saleor 3.1. Enable automatic approval of all new fulfillments.
+  """
   fulfillmentAutoApprove: Boolean
 
   """
-  New in Saleor 3.1. Enable ability to approve fulfillments which are unpaid.
+  Added in Saleor 3.1. Enable ability to approve fulfillments which are unpaid.
   """
   fulfillmentAllowUnpaid: Boolean
 
@@ -11054,17 +12057,17 @@ input ShopSettingsInput {
   customerSetPasswordUrl: String
 
   """
-  New in Saleor 3.1. Default number of minutes stock will be reserved for anonymous checkout. Enter 0 or null to disable.
+  Added in Saleor 3.1. Default number of minutes stock will be reserved for anonymous checkout. Enter 0 or null to disable.
   """
   reserveStockDurationAnonymousUser: Int
 
   """
-  New in Saleor 3.1. Default number of minutes stock will be reserved for authenticated checkout. Enter 0 or null to disable.
+  Added in Saleor 3.1. Default number of minutes stock will be reserved for authenticated checkout. Enter 0 or null to disable.
   """
   reserveStockDurationAuthenticatedUser: Int
 
   """
-  New in Saleor 3.1. Default number of maximum line quantity in single checkout. Minimum possible value is 1, default value is 50. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Default number of maximum line quantity in single checkout. Minimum possible value is 1, default value is 50. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   limitQuantityPerCheckout: Int
 }
@@ -11551,7 +12554,7 @@ input ProductAttributeAssignInput {
   type: ProductAttributeType!
 
   """
-  New in Saleor 3.1. Whether attribute is allowed in variant selection. Allowed types are: ['dropdown', 'boolean', 'swatch', 'numeric'].
+  Added in Saleor 3.1. Whether attribute is allowed in variant selection. Allowed types are: ['dropdown', 'boolean', 'swatch', 'numeric'].
   """
   variantSelection: Boolean
 }
@@ -11562,7 +12565,7 @@ enum ProductAttributeType {
 }
 
 """
-New in Saleor 3.1. Update attributes assigned to product variant for given product type. Requires one of the following permissions: MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES.
+Added in Saleor 3.1. Update attributes assigned to product variant for given product type. Requires one of the following permissions: MANAGE_PRODUCT_TYPES_AND_ATTRIBUTES.
 """
 type ProductAttributeAssignmentUpdate {
   """The updated product type."""
@@ -11576,7 +12579,7 @@ input ProductAttributeAssignmentUpdateInput {
   id: ID!
 
   """
-  New in Saleor 3.1. Whether attribute is allowed in variant selection. Allowed types are: ['dropdown', 'boolean', 'swatch', 'numeric'].
+  Added in Saleor 3.1. Whether attribute is allowed in variant selection. Allowed types are: ['dropdown', 'boolean', 'swatch', 'numeric'].
   """
   variantSelection: Boolean!
 }
@@ -12401,12 +13404,12 @@ input ProductVariantCreateInput {
   weight: WeightScalar
 
   """
-  New in Saleor 3.1. Determines if variant is in preorder. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Determines if variant is in preorder. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   preorder: PreorderSettingsInput
 
   """
-  New in Saleor 3.1. Determines maximum quantity of `ProductVariant`,that can be bought in a single checkout. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Determines maximum quantity of `ProductVariant`,that can be bought in a single checkout. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   quantityLimitPerCustomer: Int
 
@@ -12499,12 +13502,12 @@ input ProductVariantBulkCreateInput {
   weight: WeightScalar
 
   """
-  New in Saleor 3.1. Determines if variant is in preorder. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Determines if variant is in preorder. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   preorder: PreorderSettingsInput
 
   """
-  New in Saleor 3.1. Determines maximum quantity of `ProductVariant`,that can be bought in a single checkout. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Determines maximum quantity of `ProductVariant`,that can be bought in a single checkout. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   quantityLimitPerCustomer: Int
 
@@ -12541,7 +13544,7 @@ input ProductVariantChannelListingAddInput {
   costPrice: PositiveDecimal
 
   """
-  New in Saleor 3.1. The threshold for preorder variant in channel. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. The threshold for preorder variant in channel. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   preorderThreshold: Int
 }
@@ -12656,12 +13659,12 @@ input ProductVariantInput {
   weight: WeightScalar
 
   """
-  New in Saleor 3.1. Determines if variant is in preorder. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Determines if variant is in preorder. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   preorder: PreorderSettingsInput
 
   """
-  New in Saleor 3.1. Determines maximum quantity of `ProductVariant`,that can be bought in a single checkout. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Determines maximum quantity of `ProductVariant`,that can be bought in a single checkout. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   quantityLimitPerCustomer: Int
 }
@@ -12709,7 +13712,7 @@ type ProductVariantReorderAttributeValues {
 }
 
 """
-New in Saleor 3.1. Deactivates product variant preorder. It changes all preorder allocation into regular allocation. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_PRODUCTS.
+Added in Saleor 3.1. Deactivates product variant preorder. It changes all preorder allocation into regular allocation. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_PRODUCTS.
 """
 type ProductVariantPreorderDeactivate {
   """Product variant with ended preorder."""
@@ -13356,7 +14359,7 @@ input FulfillmentCancelInput {
 }
 
 """
-New in Saleor 3.1. Approve existing fulfillment. Requires one of the following permissions: MANAGE_ORDERS.
+Added in Saleor 3.1. Approve existing fulfillment. Requires one of the following permissions: MANAGE_ORDERS.
 """
 type FulfillmentApprove {
   """An approved fulfillment."""
@@ -14101,12 +15104,12 @@ type GiftCardCreate {
 
 input GiftCardCreateInput {
   """
-  New in Saleor 3.1. The gift card tags to add. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. The gift card tags to add. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   addTags: [String!]
 
   """
-  New in Saleor 3.1. The gift card expiry date. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. The gift card expiry date. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   expiryDate: Date
 
@@ -14131,12 +15134,12 @@ input GiftCardCreateInput {
   userEmail: String
 
   """
-  New in Saleor 3.1. Slug of a channel from which the email should be sent. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Slug of a channel from which the email should be sent. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   channel: String
 
   """
-  New in Saleor 3.1. Determine if gift card is active. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Determine if gift card is active. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   isActive: Boolean!
 
@@ -14148,7 +15151,7 @@ input GiftCardCreateInput {
   code: String
 
   """
-  New in Saleor 3.1. The gift card note from the staff member. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. The gift card note from the staff member. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   note: String
 }
@@ -14162,7 +15165,7 @@ input PriceInput {
 }
 
 """
-New in Saleor 3.1. Delete gift card. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+Added in Saleor 3.1. Delete gift card. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
 """
 type GiftCardDelete {
   giftCardErrors: [GiftCardError!]! @deprecated(reason: "This field will be removed in Saleor 4.0. Use `errors` field instead.")
@@ -14191,12 +15194,12 @@ type GiftCardUpdate {
 
 input GiftCardUpdateInput {
   """
-  New in Saleor 3.1. The gift card tags to add. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. The gift card tags to add. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   addTags: [String!]
 
   """
-  New in Saleor 3.1. The gift card expiry date. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. The gift card expiry date. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   expiryDate: Date
 
@@ -14215,18 +15218,18 @@ input GiftCardUpdateInput {
   endDate: Date
 
   """
-  New in Saleor 3.1. The gift card tags to remove. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. The gift card tags to remove. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   removeTags: [String!]
 
   """
-  New in Saleor 3.1. The gift card balance amount. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. The gift card balance amount. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   balanceAmount: PositiveDecimal
 }
 
 """
-New in Saleor 3.1. Resend a gift card. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+Added in Saleor 3.1. Resend a gift card. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
 """
 type GiftCardResend {
   """Gift card which has been sent."""
@@ -14246,7 +15249,7 @@ input GiftCardResendInput {
 }
 
 """
-New in Saleor 3.1. Adds note to the gift card. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+Added in Saleor 3.1. Adds note to the gift card. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
 """
 type GiftCardAddNote {
   """Gift card with the note added."""
@@ -14263,7 +15266,7 @@ input GiftCardAddNoteInput {
 }
 
 """
-New in Saleor 3.1. Create gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+Added in Saleor 3.1. Create gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
 """
 type GiftCardBulkCreate {
   """Returns how many objects were created."""
@@ -14292,7 +15295,7 @@ input GiftCardBulkCreateInput {
 }
 
 """
-New in Saleor 3.1. Delete gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+Added in Saleor 3.1. Delete gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
 """
 type GiftCardBulkDelete {
   """Returns how many objects were affected."""
@@ -14301,7 +15304,7 @@ type GiftCardBulkDelete {
 }
 
 """
-New in Saleor 3.1. Activate gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+Added in Saleor 3.1. Activate gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
 """
 type GiftCardBulkActivate {
   """Returns how many objects were affected."""
@@ -14310,7 +15313,7 @@ type GiftCardBulkActivate {
 }
 
 """
-New in Saleor 3.1. Deactivate gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+Added in Saleor 3.1. Deactivate gift cards. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
 """
 type GiftCardBulkDeactivate {
   """Returns how many objects were affected."""
@@ -14367,7 +15370,7 @@ input ConfigurationItemInput {
 }
 
 """
-New in Saleor 3.1. Trigger sending a notification with the notify plugin method. Serializes nodes provided as ids parameter and includes this data in the notification payload.
+Added in Saleor 3.1. Trigger sending a notification with the notify plugin method. Serializes nodes provided as ids parameter and includes this data in the notification payload.
 """
 type ExternalNotificationTrigger {
   errors: [ExternalNotificationError!]!
@@ -14526,7 +15529,7 @@ input CatalogueInput {
   """Collections related to the discount."""
   collections: [ID!]
 
-  """New in Saleor 3.1. Product variant related to the discount."""
+  """Added in Saleor 3.1. Product variant related to the discount."""
   variants: [ID!]
 }
 
@@ -14606,7 +15609,7 @@ input VoucherInput {
   """Products discounted by the voucher."""
   products: [ID!]
 
-  """New in Saleor 3.1. Variants discounted by the voucher."""
+  """Added in Saleor 3.1. Variants discounted by the voucher."""
   variants: [ID!]
 
   """Collections discounted by the voucher."""
@@ -14817,7 +15820,7 @@ enum FileTypesEnum {
 }
 
 """
-New in Saleor 3.1. Export gift cards to csv file. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
+Added in Saleor 3.1. Export gift cards to csv file. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: MANAGE_GIFT_CARD.
 """
 type ExportGiftCards {
   """
@@ -14998,7 +16001,7 @@ input CheckoutLineInput {
   variantId: ID!
 
   """
-  New in Saleor 3.1. Custom price of the item. Can be set only by apps with `HANDLE_CHECKOUTS` permission. When the line with the same variant will be provided multiple times, the last price will be used. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Custom price of the item. Can be set only by apps with `HANDLE_CHECKOUTS` permission. When the line with the same variant will be provided multiple times, the last price will be used. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   price: PositiveDecimal
 }
@@ -15074,7 +16077,7 @@ input CheckoutLineUpdateInput {
   variantId: ID!
 
   """
-  New in Saleor 3.1. Custom price of the item. Can be set only by apps with `HANDLE_CHECKOUTS` permission. When the line with the same variant will be provided multiple times, the last price will be used. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.1. Custom price of the item. Can be set only by apps with `HANDLE_CHECKOUTS` permission. When the line with the same variant will be provided multiple times, the last price will be used. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   price: PositiveDecimal
 }
@@ -15117,10 +16120,10 @@ input PaymentInput {
   """
   returnUrl: String
 
-  """New in Saleor 3.1. Payment store type."""
+  """Added in Saleor 3.1. Payment store type."""
   storePaymentMethod: StorePaymentMethodEnum = none
 
-  """New in Saleor 3.1. User public metadata."""
+  """Added in Saleor 3.1. User public metadata."""
   metadata: [MetadataInput!]
 }
 
@@ -15157,7 +16160,7 @@ type CheckoutShippingMethodUpdate {
 }
 
 """
-New in Saleor 3.1. Updates the delivery method (shipping method or pick up point) of the checkout. Note: this feature is in a preview state and can be subject to changes at later point.
+Added in Saleor 3.1. Updates the delivery method (shipping method or pick up point) of the checkout. Note: this feature is in a preview state and can be subject to changes at later point.
 """
 type CheckoutDeliveryMethodUpdate {
   """An updated checkout."""
@@ -15174,7 +16177,7 @@ type CheckoutLanguageCodeUpdate {
 }
 
 """
-New in Saleor 3.2. Create new order from existing checkout. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: HANDLE_CHECKOUTS.
+Added in Saleor 3.2. Create new order from existing checkout. Note: this feature is in a preview state and can be subject to changes at later point. Requires one of the following permissions: HANDLE_CHECKOUTS.
 """
 type OrderCreateFromCheckout {
   """Placed order."""
@@ -15271,7 +16274,7 @@ input ChannelCreateInput {
   currencyCode: String!
 
   """
-  New in Saleor 3.1. Default country for the channel. Default country can be used in checkout to determine the stock quantities or calculate taxes when the country was not explicitly provided.
+  Added in Saleor 3.1. Default country for the channel. Default country can be used in checkout to determine the stock quantities or calculate taxes when the country was not explicitly provided.
   """
   defaultCountry: CountryCode!
 
@@ -15299,7 +16302,7 @@ input ChannelUpdateInput {
   slug: String
 
   """
-  New in Saleor 3.1. Default country for the channel. Default country can be used in checkout to determine the stock quantities or calculate taxes when the country was not explicitly provided.
+  Added in Saleor 3.1. Default country for the channel. Default country can be used in checkout to determine the stock quantities or calculate taxes when the country was not explicitly provided.
   """
   defaultCountry: CountryCode
 
@@ -16540,7 +17543,7 @@ type PermissionGroupDelete {
 
 type Subscription {
   """
-  New in Saleor 3.2. Look up subscription event. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up subscription event. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   event: Event
 }
@@ -16549,91 +17552,91 @@ union Event = CategoryCreated | CategoryUpdated | CategoryDeleted | OrderCreated
 
 type CategoryCreated {
   """
-  New in Saleor 3.2. Look up a category. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a category. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   category: Category
 }
 
 type CategoryUpdated {
   """
-  New in Saleor 3.2. Look up a category. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a category. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   category: Category
 }
 
 type CategoryDeleted {
   """
-  New in Saleor 3.2. Look up a category. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a category. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   category: Category
 }
 
 type OrderCreated {
   """
-  New in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   order: Order
 }
 
 type OrderUpdated {
   """
-  New in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   order: Order
 }
 
 type OrderConfirmed {
   """
-  New in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   order: Order
 }
 
 type OrderFullyPaid {
   """
-  New in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   order: Order
 }
 
 type OrderCancelled {
   """
-  New in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   order: Order
 }
 
 type OrderFulfilled {
   """
-  New in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   order: Order
 }
 
 type DraftOrderCreated {
   """
-  New in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   order: Order
 }
 
 type DraftOrderUpdated {
   """
-  New in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   order: Order
 }
 
 type DraftOrderDeleted {
   """
-  New in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up an order. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   order: Order
 }
 
 type ProductCreated {
   """
-  New in Saleor 3.2. Look up a product. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a product. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   product(
     """Slug of a channel for which the data should be returned."""
@@ -16641,14 +17644,14 @@ type ProductCreated {
   ): Product
 
   """
-  New in Saleor 3.2. Look up a category. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a category. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   category: Category
 }
 
 type ProductUpdated {
   """
-  New in Saleor 3.2. Look up a product. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a product. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   product(
     """Slug of a channel for which the data should be returned."""
@@ -16656,14 +17659,14 @@ type ProductUpdated {
   ): Product
 
   """
-  New in Saleor 3.2. Look up a category. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a category. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   category: Category
 }
 
 type ProductDeleted {
   """
-  New in Saleor 3.2. Look up a product. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a product. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   product(
     """Slug of a channel for which the data should be returned."""
@@ -16671,14 +17674,14 @@ type ProductDeleted {
   ): Product
 
   """
-  New in Saleor 3.2. Look up a category. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a category. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   category: Category
 }
 
 type ProductVariantCreated {
   """
-  New in Saleor 3.2. Look up a product variant. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a product variant. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   productVariant(
     """Slug of a channel for which the data should be returned."""
@@ -16688,7 +17691,7 @@ type ProductVariantCreated {
 
 type ProductVariantUpdated {
   """
-  New in Saleor 3.2. Look up a product variant. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a product variant. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   productVariant(
     """Slug of a channel for which the data should be returned."""
@@ -16698,7 +17701,7 @@ type ProductVariantUpdated {
 
 type ProductVariantOutOfStock {
   """
-  New in Saleor 3.2. Look up a product variant. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a product variant. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   productVariant(
     """Slug of a channel for which the data should be returned."""
@@ -16706,14 +17709,14 @@ type ProductVariantOutOfStock {
   ): ProductVariant
 
   """
-  New in Saleor 3.2. Look up a warehouse. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a warehouse. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   warehouse: Warehouse
 }
 
 type ProductVariantBackInStock {
   """
-  New in Saleor 3.2. Look up a product variant. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a product variant. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   productVariant(
     """Slug of a channel for which the data should be returned."""
@@ -16721,14 +17724,14 @@ type ProductVariantBackInStock {
   ): ProductVariant
 
   """
-  New in Saleor 3.2. Look up a warehouse. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a warehouse. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   warehouse: Warehouse
 }
 
 type ProductVariantDeleted {
   """
-  New in Saleor 3.2. Look up a product variant. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a product variant. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   productVariant(
     """Slug of a channel for which the data should be returned."""
@@ -16738,7 +17741,7 @@ type ProductVariantDeleted {
 
 type SaleCreated {
   """
-  New in Saleor 3.2. Look up a sale. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a sale. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   sale(
     """Slug of a channel for which the data should be returned."""
@@ -16748,7 +17751,7 @@ type SaleCreated {
 
 type SaleUpdated {
   """
-  New in Saleor 3.2. Look up a sale. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a sale. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   sale(
     """Slug of a channel for which the data should be returned."""
@@ -16758,7 +17761,7 @@ type SaleUpdated {
 
 type SaleDeleted {
   """
-  New in Saleor 3.2. Look up a sale. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a sale. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   sale(
     """Slug of a channel for which the data should be returned."""
@@ -16768,56 +17771,56 @@ type SaleDeleted {
 
 type InvoiceRequested {
   """
-  New in Saleor 3.2. Look up an Invoice. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up an Invoice. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   invoice: Invoice
 }
 
 type InvoiceDeleted {
   """
-  New in Saleor 3.2. Look up an Invoice. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up an Invoice. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   invoice: Invoice
 }
 
 type InvoiceSent {
   """
-  New in Saleor 3.2. Look up an Invoice. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up an Invoice. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   invoice: Invoice
 }
 
 type FulfillmentCreated {
   """
-  New in Saleor 3.2. Look up a Fulfillment. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a Fulfillment. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   fulfillment: Fulfillment
 }
 
 type FulfillmentCanceled {
   """
-  New in Saleor 3.2. Look up a Fulfillment. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a Fulfillment. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   fulfillment: Fulfillment
 }
 
 type CustomerCreated {
   """
-  New in Saleor 3.2. Look up a user. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a user. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   user: User
 }
 
 type CustomerUpdated {
   """
-  New in Saleor 3.2. Look up a user. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a user. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   user: User
 }
 
 type CollectionCreated {
   """
-  New in Saleor 3.2. Look up a collection. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a collection. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   collection(
     """Slug of a channel for which the data should be returned."""
@@ -16827,7 +17830,7 @@ type CollectionCreated {
 
 type CollectionUpdated {
   """
-  New in Saleor 3.2. Look up a collection. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a collection. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   collection(
     """Slug of a channel for which the data should be returned."""
@@ -16837,7 +17840,7 @@ type CollectionUpdated {
 
 type CollectionDeleted {
   """
-  New in Saleor 3.2. Look up a collection. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a collection. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   collection(
     """Slug of a channel for which the data should be returned."""
@@ -16847,42 +17850,42 @@ type CollectionDeleted {
 
 type CheckoutCreated {
   """
-  New in Saleor 3.2. Look up a Checkout. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a Checkout. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   checkout: Checkout
 }
 
 type CheckoutUpdated {
   """
-  New in Saleor 3.2. Look up a Checkout. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a Checkout. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   checkout: Checkout
 }
 
 type PageCreated {
   """
-  New in Saleor 3.2. Look up a page. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a page. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   page: Page
 }
 
 type PageUpdated {
   """
-  New in Saleor 3.2. Look up a page. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a page. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   page: Page
 }
 
 type PageDeleted {
   """
-  New in Saleor 3.2. Look up a page. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a page. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   page: Page
 }
 
 type TranslationCreated {
   """
-  New in Saleor 3.2. Look up a translation. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a translation. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   translation: TranslationTypes
 }
@@ -16891,7 +17894,7 @@ union TranslationTypes = ProductTranslation | CollectionTranslation | CategoryTr
 
 type TranslationUpdated {
   """
-  New in Saleor 3.2. Look up a translation. Note: this feature is in a preview state and can be subject to changes at later point.
+  Added in Saleor 3.2. Look up a translation. Note: this feature is in a preview state and can be subject to changes at later point.
   """
   translation: TranslationTypes
 }
