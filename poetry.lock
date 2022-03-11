@@ -197,14 +197,14 @@ uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
 name = "boto3"
-version = "1.21.32"
+version = "1.21.33"
 description = "The AWS SDK for Python"
 category = "main"
 optional = false
 python-versions = ">= 3.6"
 
 [package.dependencies]
-botocore = ">=1.24.32,<1.25.0"
+botocore = ">=1.24.33,<1.25.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.5.0,<0.6.0"
 
@@ -213,7 +213,7 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.24.32"
+version = "1.24.33"
 description = "Low-level, data-driven core of boto 3."
 category = "main"
 optional = false
@@ -225,7 +225,7 @@ python-dateutil = ">=2.1,<3.0.0"
 urllib3 = ">=1.25.4,<1.27"
 
 [package.extras]
-crt = ["awscrt (==0.13.5)"]
+crt = ["awscrt (==0.13.8)"]
 
 [[package]]
 name = "braintree"
@@ -1736,7 +1736,7 @@ test = ["pytest (>=2.7.3)", "pytest-cov", "coveralls", "futures", "pytest-benchm
 
 [[package]]
 name = "prompt-toolkit"
-version = "3.0.28"
+version = "3.0.29"
 description = "Library for building powerful interactive command lines in Python"
 category = "main"
 optional = false
@@ -2241,7 +2241,7 @@ requests = "*"
 
 [[package]]
 name = "redis"
-version = "4.2.1"
+version = "4.2.2"
 description = "Python client for Redis database and key-value store"
 category = "main"
 optional = false
@@ -2531,6 +2531,22 @@ docs = ["pygments-github-lexers (>=0.0.5)", "sphinx (>=2.0.0)", "sphinxcontrib-a
 testing = ["flaky (>=3.4.0)", "freezegun (>=0.3.11)", "pytest (>=4.0.0)", "pytest-cov (>=2.5.1)", "pytest-mock (>=1.10.0)", "pytest-randomly (>=1.0.0)", "psutil (>=5.6.1)", "pathlib2 (>=2.3.3)"]
 
 [[package]]
+name = "types-certifi"
+version = "2021.10.8.1"
+description = "Typing stubs for certifi"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "types-freezegun"
+version = "1.1.8"
+description = "Typing stubs for freezegun"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "types-pkg-resources"
 version = "0.1.3"
 description = "Typing stubs for pkg_resources"
@@ -2564,6 +2580,14 @@ python-versions = "*"
 
 [package.dependencies]
 types-urllib3 = "<1.27"
+
+[[package]]
+name = "types-six"
+version = "1.16.12"
+description = "Typing stubs for six"
+category = "dev"
+optional = false
+python-versions = "*"
 
 [[package]]
 name = "types-urllib3"
@@ -2691,7 +2715,7 @@ python-versions = "*"
 
 [[package]]
 name = "weasyprint"
-version = "54.2"
+version = "54.3"
 description = "The Awesome Document Factory"
 category = "main"
 optional = false
@@ -2772,8 +2796,8 @@ test = ["pytest"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = "~3.9"
-content-hash = "849498097e2eaaa08da962efe6abaca13631033f2b5ba9ab9d153558fd64d609"
+  python-versions = "~3.9"
+content-hash = "485c43b160a08e3906f80f75303787092378df533743d6e72882e09c7cd63b26"
 
 [metadata.files]
 adyen = [
@@ -2864,12 +2888,12 @@ black = [
     {file = "black-22.3.0.tar.gz", hash = "sha256:35020b8886c022ced9282b51b5a875b6d1ab0c387b31a065b84db7c33085ca79"},
 ]
 boto3 = [
-    {file = "boto3-1.21.32-py3-none-any.whl", hash = "sha256:8e7a6d70cefa4e125466e0c467b489649cb72e3632997844bc3c382f948c46e4"},
-    {file = "boto3-1.21.32.tar.gz", hash = "sha256:05f4438607e560624caadb073c6c63181eda9bf74f8a9e4581e7b43d641cc683"},
+    {file = "boto3-1.21.33-py3-none-any.whl", hash = "sha256:9d8ddfefe0c4a993423e2c40831034c78fcb7b3425bf3610cf0087301dd9098b"},
+    {file = "boto3-1.21.33.tar.gz", hash = "sha256:c06b9b29f80da8cf6d9fac8f41d74a74d0f5347927acf11b15428b295fcbdd31"},
 ]
 botocore = [
-    {file = "botocore-1.24.32-py3-none-any.whl", hash = "sha256:4f08eaaa93ee03f14de760031dd060cda3bd6aab734d194a916dbb8f7e5c7085"},
-    {file = "botocore-1.24.32.tar.gz", hash = "sha256:5c2dab84f21b2a8c00bdab2150149be0ca0c8e8dd0b38712fa3562af5cfe53a2"},
+    {file = "botocore-1.24.33-py3-none-any.whl", hash = "sha256:16ca4a2b72fef8caaf0eeb423dbf6cd64938442c4b9f96deb672468229e5e3f9"},
+    {file = "botocore-1.24.33.tar.gz", hash = "sha256:ea5fd180082030a6c33fa19bf011d72970f3ed23cfff1b41413069e325768103"},
 ]
 braintree = [
     {file = "braintree-4.15.2-py2.py3-none-any.whl", hash = "sha256:6145f6b865687d9ab985b9b0750b911d3201e26f3f3b76178a344ff7af39061e"},
@@ -3889,8 +3913,8 @@ promise = [
     {file = "promise-2.3.tar.gz", hash = "sha256:dfd18337c523ba4b6a58801c164c1904a9d4d1b1747c7d5dbf45b693a49d93d0"},
 ]
 prompt-toolkit = [
-    {file = "prompt_toolkit-3.0.28-py3-none-any.whl", hash = "sha256:30129d870dcb0b3b6a53efdc9d0a83ea96162ffd28ffe077e94215b233dc670c"},
-    {file = "prompt_toolkit-3.0.28.tar.gz", hash = "sha256:9f1cd16b1e86c2968f2519d7fb31dd9d669916f515612c269d14e9ed52b51650"},
+    {file = "prompt_toolkit-3.0.29-py3-none-any.whl", hash = "sha256:62291dad495e665fca0bda814e342c69952086afb0f4094d0893d357e5c78752"},
+    {file = "prompt_toolkit-3.0.29.tar.gz", hash = "sha256:bd640f60e8cecd74f0dc249713d433ace2ddc62b65ee07f96d358e0b152b6ea7"},
 ]
 proto-plus = [
     {file = "proto-plus-1.20.3.tar.gz", hash = "sha256:f28b225bc9e6c14e206fb7f8e996a46fb2ccd902648e512d496abb6a716a4ae5"},
@@ -4142,8 +4166,8 @@ razorpay = [
     {file = "razorpay-1.3.0-py3-none-any.whl", hash = "sha256:01cba9f0e12c130bca7ecb2eae55c54f4f96f2f92b53616faad7e5ce80b530e9"},
 ]
 redis = [
-    {file = "redis-4.2.1-py3-none-any.whl", hash = "sha256:69d05fac17bf3f43937afbb775c536eb516bd21355a4f17d59a966f4a531ce71"},
-    {file = "redis-4.2.1.tar.gz", hash = "sha256:fe45513881229dbee610620b9e0817b1f48c47ba635870320fd44a712204bbdd"},
+    {file = "redis-4.2.2-py3-none-any.whl", hash = "sha256:4e95f4ec5f49e636efcf20061a5a9110c20852f607cfca6865c07aaa8a739ee2"},
+    {file = "redis-4.2.2.tar.gz", hash = "sha256:0107dc8e98a4f1d1d4aa00100e044287f77121a1e6d2085545c4b7fa94a7a27f"},
 ]
 requests = [
     {file = "requests-2.27.1-py2.py3-none-any.whl", hash = "sha256:f22fa1e554c9ddfd16e6e41ac79759e17be9e492b3587efa038054674760e72d"},
@@ -4274,6 +4298,14 @@ tox = [
     {file = "tox-3.24.5-py2.py3-none-any.whl", hash = "sha256:be3362472a33094bce26727f5f771ca0facf6dafa217f65875314e9a6600c95c"},
     {file = "tox-3.24.5.tar.gz", hash = "sha256:67e0e32c90e278251fea45b696d0fef3879089ccbe979b0c556d35d5a70e2993"},
 ]
+types-certifi = [
+    {file = "types-certifi-2021.10.8.1.tar.gz", hash = "sha256:546cd3ca4466855959fbc8868fd7139a50eb55a2d1fae497e13b60af439597a3"},
+    {file = "types_certifi-2021.10.8.1-py3-none-any.whl", hash = "sha256:2290008f32e6ac7c69e779d04fa1bc4c6bb4c7200aa3b3b072ad5475a8968aa5"},
+]
+types-freezegun = [
+    {file = "types-freezegun-1.1.8.tar.gz", hash = "sha256:f4bb08c54aa46816c77a1b5c7a2a54f5393c3ce58e7d4002e67f9081b411e921"},
+    {file = "types_freezegun-1.1.8-py3-none-any.whl", hash = "sha256:59dd99a6d168bdb5bf884fda6daebd68c35bc86383df183cf182abc6dfcbb7b7"},
+]
 types-pkg-resources = [
     {file = "types-pkg_resources-0.1.3.tar.gz", hash = "sha256:834a9b8d3dbea343562fd99d5d3359a726f6bf9d3733bccd2b4f3096fbab9dae"},
     {file = "types_pkg_resources-0.1.3-py2.py3-none-any.whl", hash = "sha256:0cb9972cee992249f93fff1a491bf2dc3ce674e5a1926e27d4f0866f7d9b6d9c"},
@@ -4289,6 +4321,10 @@ types-pytz = [
 types-requests = [
     {file = "types-requests-2.27.16.tar.gz", hash = "sha256:c8010c18b291a7efb60b1452dbe12530bc25693dd657e70c62803fcdc4bffe9b"},
     {file = "types_requests-2.27.16-py3-none-any.whl", hash = "sha256:2437a5f4d16c0c8bd7539a8126d492b7aeb41e6cda670d76b286c7f83a658d42"},
+]
+types-six = [
+    {file = "types-six-1.16.12.tar.gz", hash = "sha256:557435f8ad73e91562797ac7efac8e6554f0fa7893b6431b928de8ec635d866a"},
+    {file = "types_six-1.16.12-py3-none-any.whl", hash = "sha256:6857be934cfa884e166fb3bab8c0bc6f967b051af09e4f87c5ea8b166c16d2f5"},
 ]
 types-urllib3 = [
     {file = "types-urllib3-1.26.11.tar.gz", hash = "sha256:24d64e441168851eb05f1d022de18ae31558f5649c8f1117e384c2e85e31315b"},
@@ -4345,8 +4381,8 @@ wcwidth = [
     {file = "wcwidth-0.2.5.tar.gz", hash = "sha256:c4d647b99872929fdb7bdcaa4fbe7f01413ed3d98077df798530e5b04f116c83"},
 ]
 weasyprint = [
-    {file = "weasyprint-54.2-py3-none-any.whl", hash = "sha256:6a673e48c9b784d0c106f0147a88ba27f34ce49e69028640644fec8ae1b5cfa5"},
-    {file = "weasyprint-54.2.tar.gz", hash = "sha256:d5e8aa82e3e2a2477a4543f0646d9fb14080c9ba34a0859751eb23757cc00466"},
+    {file = "weasyprint-54.3-py3-none-any.whl", hash = "sha256:12260f1be1052e5c5b6e8bc90069969c6ee7ad77178e02398763ced5ea2cbc11"},
+    {file = "weasyprint-54.3.tar.gz", hash = "sha256:e04da040630566c44caa202033f07f858765f536709045a809739f3d048e89d6"},
 ]
 webencodings = [
     {file = "webencodings-0.5.1-py2.py3-none-any.whl", hash = "sha256:a0af1213f3c2226497a97e2b3aa01a7e4bee4f403f95be16fc9acd2947514a78"},
