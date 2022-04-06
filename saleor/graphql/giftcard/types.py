@@ -15,7 +15,10 @@ from ...core.permissions import (
 from ...core.tracing import traced_resolver
 from ...giftcard import GiftCardEvents, models
 from ..account.dataloaders import UserByUserIdLoader
-from ..account.utils import check_requestor_access, requestor_has_access
+from ..account.utils import (
+    check_is_owner_or_has_one_of_perms,
+    is_owner_or_has_one_of_perms,
+)
 from ..app.dataloaders import AppByIdLoader
 from ..app.types import App
 from ..channel import ChannelContext
@@ -358,7 +361,9 @@ class GiftCard(ModelObjectType):
     def resolve_created_by(root: models.GiftCard, info):
         def _resolve_created_by(user):
             requestor = get_user_or_app_from_context(info.context)
-            check_requestor_access(requestor, user, AccountPermissions.MANAGE_USERS)
+            check_is_owner_or_has_one_of_perms(
+                requestor, user, AccountPermissions.MANAGE_USERS
+            )
             return user
 
         if root.created_by_id is None:
@@ -370,7 +375,9 @@ class GiftCard(ModelObjectType):
     def resolve_used_by(root: models.GiftCard, info):
         def _resolve_used_by(user):
             requestor = get_user_or_app_from_context(info.context)
-            if requestor_has_access(requestor, user, AccountPermissions.MANAGE_USERS):
+            if is_owner_or_has_one_of_perms(
+                requestor, user, AccountPermissions.MANAGE_USERS
+            ):
                 return user
 
         if not root.used_by_id:
@@ -386,7 +393,7 @@ class GiftCard(ModelObjectType):
     def resolve_created_by_email(root: models.GiftCard, info):
         def _resolve_created_by_email(user):
             requester = get_user_or_app_from_context(info.context)
-            if requestor_has_access(
+            if is_owner_or_has_one_of_perms(
                 requester, user, GiftcardPermissions.MANAGE_GIFT_CARD
             ):
                 return user.email if user else root.created_by_email
@@ -405,7 +412,7 @@ class GiftCard(ModelObjectType):
     def resolve_used_by_email(root: models.GiftCard, info):
         def _resolve_used_by_email(user):
             requester = get_user_or_app_from_context(info.context)
-            if requestor_has_access(
+            if is_owner_or_has_one_of_perms(
                 requester, user, GiftcardPermissions.MANAGE_GIFT_CARD
             ):
                 return user.email if user else root.used_by_email
@@ -509,7 +516,9 @@ class GiftCard(ModelObjectType):
     def resolve_user(root: models.GiftCard, info):
         def _resolve_user(user):
             requestor = get_user_or_app_from_context(info.context)
-            if requestor_has_access(requestor, user, AccountPermissions.MANAGE_USERS):
+            if is_owner_or_has_one_of_perms(
+                requestor, user, AccountPermissions.MANAGE_USERS
+            ):
                 return user
 
         if not root.created_by_id:
