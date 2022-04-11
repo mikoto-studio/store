@@ -8,7 +8,6 @@ from ....product.error_codes import ProductErrorCode
 from ...channel import ChannelContext
 from ...core.mutations import BaseMutation, ModelMutation
 from ...core.types import ProductError, Upload
-from ...decorators import permission_required
 from ..types import DigitalContent, DigitalContentUrl, ProductVariant
 
 
@@ -64,9 +63,9 @@ class DigitalContentCreate(BaseMutation):
         )
         error_type_class = ProductError
         error_type_field = "product_errors"
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
 
     @classmethod
-    @permission_required(ProductPermissions.MANAGE_PRODUCTS)
     def clean_input(cls, info, data, instance):
         if hasattr(instance, "digital_content"):
             instance.digital_content.delete()
@@ -92,7 +91,6 @@ class DigitalContentCreate(BaseMutation):
         return data
 
     @classmethod
-    @permission_required(ProductPermissions.MANAGE_PRODUCTS)
     def perform_mutation(cls, _root, info, variant_id, **data):
         variant = cls.get_node_or_error(
             info, variant_id, "id", only_type=ProductVariant
@@ -132,9 +130,9 @@ class DigitalContentDelete(BaseMutation):
         description = "Remove digital content assigned to given variant."
         error_type_class = ProductError
         error_type_field = "product_errors"
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
 
     @classmethod
-    @permission_required(ProductPermissions.MANAGE_PRODUCTS)
     def mutate(cls, root, info, **data):
         set_mutation_flag_in_context(info.context)
         result = info.context.plugins.perform_mutation(
@@ -173,7 +171,6 @@ class DigitalContentUpdate(BaseMutation):
         error_type_field = "product_errors"
 
     @classmethod
-    @permission_required(ProductPermissions.MANAGE_PRODUCTS)
     def clean_input(cls, info, data):
         use_default_settings = data.get("use_default_settings")
         if use_default_settings:
@@ -196,7 +193,6 @@ class DigitalContentUpdate(BaseMutation):
         return data
 
     @classmethod
-    @permission_required(ProductPermissions.MANAGE_PRODUCTS)
     def perform_mutation(cls, _root, info, variant_id, **data):
         variant = cls.get_node_or_error(
             info, variant_id, "id", only_type=ProductVariant
@@ -253,8 +249,4 @@ class DigitalContentUrlCreate(ModelMutation):
         object_type = DigitalContentUrl
         error_type_class = ProductError
         error_type_field = "product_errors"
-
-    @classmethod
-    @permission_required(ProductPermissions.MANAGE_PRODUCTS)
-    def mutate(cls, root, info, **data):
-        return super().mutate(root, info, **data)
+        permissions = (ProductPermissions.MANAGE_PRODUCTS,)
