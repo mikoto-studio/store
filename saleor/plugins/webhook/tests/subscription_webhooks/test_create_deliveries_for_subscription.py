@@ -73,7 +73,7 @@ def test_shipping_price_created(
 
     # then
     expected_payload = json.dumps(
-        [{"shippingMethod": {"id": shipping_method_id}, "meta": None}]
+        {"shippingMethod": {"id": shipping_method_id}, "meta": None}
     )
 
     assert deliveries[0].payload.payload == expected_payload
@@ -98,7 +98,7 @@ def test_shipping_price_updated(
 
     # then
     expected_payload = json.dumps(
-        [{"shippingMethod": {"id": shipping_method_id}, "meta": None}]
+        {"shippingMethod": {"id": shipping_method_id}, "meta": None}
     )
     assert deliveries[0].payload.payload == expected_payload
     assert len(deliveries) == len(webhooks)
@@ -122,7 +122,7 @@ def test_shipping_price_deleted(
 
     # then
     expected_payload = json.dumps(
-        [{"shippingMethod": {"id": shipping_method_id}, "meta": None}]
+        {"shippingMethod": {"id": shipping_method_id}, "meta": None}
     )
     assert deliveries[0].payload.payload == expected_payload
     assert len(deliveries) == len(webhooks)
@@ -144,7 +144,7 @@ def test_shipping_zone_created(
 
     # then
     expected_payload = json.dumps(
-        [{"shippingZone": {"id": shipping_zone_id}, "meta": None}]
+        {"shippingZone": {"id": shipping_zone_id}, "meta": None}
     )
 
     assert deliveries[0].payload.payload == expected_payload
@@ -167,7 +167,7 @@ def test_shipping_zone_updated(
 
     # then
     expected_payload = json.dumps(
-        [{"shippingZone": {"id": shipping_zone_id}, "meta": None}]
+        {"shippingZone": {"id": shipping_zone_id}, "meta": None}
     )
     assert deliveries[0].payload.payload == expected_payload
     assert len(deliveries) == len(webhooks)
@@ -189,7 +189,7 @@ def test_shipping_zone_deleted(
 
     # then
     expected_payload = json.dumps(
-        [{"shippingZone": {"id": shipping_zone_id}, "meta": None}]
+        {"shippingZone": {"id": shipping_zone_id}, "meta": None}
     )
     assert deliveries[0].payload.payload == expected_payload
     assert len(deliveries) == len(webhooks)
