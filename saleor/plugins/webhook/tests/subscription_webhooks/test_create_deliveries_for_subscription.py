@@ -62,8 +62,12 @@ def test_shipping_price_created(
     # given
     webhooks = [subscription_shipping_price_created_webhook]
     event_type = WebhookEventAsyncType.SHIPPING_PRICE_CREATED
+
     shipping_method_id = graphene.Node.to_global_id(
         "ShippingMethodType", shipping_method.id
+    )
+    shipping_zone_id = graphene.Node.to_global_id(
+        "ShippingZone", shipping_method.shipping_zone.id
     )
 
     # when
@@ -73,7 +77,21 @@ def test_shipping_price_created(
 
     # then
     expected_payload = json.dumps(
-        {"shippingMethod": {"id": shipping_method_id}, "meta": None}
+        {
+            "shippingMethod": {
+                "id": shipping_method_id,
+                "name": shipping_method.name,
+                "channelListings": [
+                    {"channel": {"name": sl.channel.name}}
+                    for sl in shipping_method.channel_listings.all()
+                ],
+            },
+            "shippingZone": {
+                "id": shipping_zone_id,
+                "name": shipping_method.shipping_zone.name,
+            },
+            "meta": None,
+        }
     )
 
     assert deliveries[0].payload.payload == expected_payload
@@ -90,6 +108,9 @@ def test_shipping_price_updated(
     shipping_method_id = graphene.Node.to_global_id(
         "ShippingMethodType", shipping_method.id
     )
+    shipping_zone_id = graphene.Node.to_global_id(
+        "ShippingZone", shipping_method.shipping_zone.id
+    )
 
     # when
     deliveries = create_deliveries_for_subscriptions(
@@ -98,8 +119,23 @@ def test_shipping_price_updated(
 
     # then
     expected_payload = json.dumps(
-        {"shippingMethod": {"id": shipping_method_id}, "meta": None}
+        {
+            "shippingMethod": {
+                "id": shipping_method_id,
+                "name": shipping_method.name,
+                "channelListings": [
+                    {"channel": {"name": sl.channel.name}}
+                    for sl in shipping_method.channel_listings.all()
+                ],
+            },
+            "shippingZone": {
+                "id": shipping_zone_id,
+                "name": shipping_method.shipping_zone.name,
+            },
+            "meta": None,
+        }
     )
+
     assert deliveries[0].payload.payload == expected_payload
     assert len(deliveries) == len(webhooks)
     assert deliveries[0].webhook == webhooks[0]
@@ -122,7 +158,10 @@ def test_shipping_price_deleted(
 
     # then
     expected_payload = json.dumps(
-        {"shippingMethod": {"id": shipping_method_id}, "meta": None}
+        {
+            "shippingMethod": {"id": shipping_method_id, "name": shipping_method.name},
+            "meta": None,
+        }
     )
     assert deliveries[0].payload.payload == expected_payload
     assert len(deliveries) == len(webhooks)
@@ -144,7 +183,15 @@ def test_shipping_zone_created(
 
     # then
     expected_payload = json.dumps(
-        {"shippingZone": {"id": shipping_zone_id}, "meta": None}
+        {
+            "shippingZone": {
+                "id": shipping_zone_id,
+                "name": shipping_zone.name,
+                "countries": [{"code": c.code} for c in shipping_zone.countries],
+                "channels": [{"name": c.name} for c in shipping_zone.channels.all()],
+            },
+            "meta": None,
+        }
     )
 
     assert deliveries[0].payload.payload == expected_payload
@@ -167,7 +214,15 @@ def test_shipping_zone_updated(
 
     # then
     expected_payload = json.dumps(
-        {"shippingZone": {"id": shipping_zone_id}, "meta": None}
+        {
+            "shippingZone": {
+                "id": shipping_zone_id,
+                "name": shipping_zone.name,
+                "countries": [{"code": c.code} for c in shipping_zone.countries],
+                "channels": [{"name": c.name} for c in shipping_zone.channels.all()],
+            },
+            "meta": None,
+        }
     )
     assert deliveries[0].payload.payload == expected_payload
     assert len(deliveries) == len(webhooks)
@@ -189,7 +244,10 @@ def test_shipping_zone_deleted(
 
     # then
     expected_payload = json.dumps(
-        {"shippingZone": {"id": shipping_zone_id}, "meta": None}
+        {
+            "shippingZone": {"id": shipping_zone_id, "name": shipping_zone.name},
+            "meta": None,
+        }
     )
     assert deliveries[0].payload.payload == expected_payload
     assert len(deliveries) == len(webhooks)
